@@ -16,6 +16,6 @@ export class GuardService implements CanActivate {
     else {
       this.route.navigate(['login']);
       return false;
-    } 
+    }
   }
 }
