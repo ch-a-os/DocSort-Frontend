@@ -31,8 +31,13 @@ export class ApiService {
     this.router.navigate(['/home']);
   }
 
-  async uploadFile(uploadData) {
-    const response = await this.http.post(`${this.serverString}/uploadSingleDocument`, uploadData, {
+  async uploadFile(uploadData: IUploadFile) {
+    let formData: FormData = new FormData();  
+    formData.append('singleDocument',uploadData.singleDocument); 
+    formData.append('note',uploadData.note);
+    formData.append('tags',uploadData.tags);
+    formData.append('title',uploadData.title);
+    const response = await this.http.post(`${this.serverString}/uploadSingleDocument`, formData, {
       reportProgress: true,
       observe: 'events',
       headers: new HttpHeaders().set('token', this.jwt)
@@ -50,4 +55,11 @@ interface IDecodedJwt {
   username: string;
   iat: number;
   exp: number;
+}
+
+interface IUploadFile {
+  singleDocument: File;
+  title: string;
+  note: string;
+  tags: string;
 }
