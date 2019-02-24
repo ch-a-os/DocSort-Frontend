@@ -18,9 +18,9 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
-  onFileChanged(event) {
-    console.log("onFileChanged was called:" + JSON.stringify(event));
-    this.selectedFile = event.target.files[0];
+  onFileChanged(files: FileList) {
+    console.log("onFileChanged was called");
+    this.selectedFile = files.item(0);
   }
 
   onUpload() {
