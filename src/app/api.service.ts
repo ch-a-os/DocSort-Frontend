@@ -14,12 +14,12 @@ export class ApiService {
   }
 
   async login(username, password) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-    const params = new HttpParams()
-      .set('username', username)
-      .set('password', password);
-    const response = await this.http.get(`${this.serverString}/login`, { headers: headers, params: params });
-    this.jwt = this.jwt;
+    console.log("In api")
+    const headers = new HttpHeaders({ 'username': username, 'password': password });
+    const response = await this.http.get(`${this.serverString}/login`, { headers: headers });
+    response.subscribe((obj) => {
+      this.jwt = obj['jwt'];
+    });
     this.isLoggedIn = true;
   }
 
