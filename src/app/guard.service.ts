@@ -10,7 +10,9 @@ export class GuardService implements CanActivate {
   constructor(private api: ApiService, private route: Router) { }
 
   canActivate() {
-    if(this.api.isLoggedIn) return true;
+    if(this.api.isLoggedIn) {
+      return true;
+    }
     else {
       this.route.navigate(['login']);
       return false;

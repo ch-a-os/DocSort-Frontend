@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Router } from "@angular/router"
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +10,16 @@ export class ApiService {
   private jwt: string;
   public isLoggedIn: boolean;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.serverString = "http://localhost:9090";
   }
 
   async login(username, password) {
     const headers = new HttpHeaders({ 'username': username, 'password': password });
-    const response = await this.http.get(`${this.serverString}/login`, { headers: headers });
-    response.subscribe((obj) => {
-      this.jwt = obj['jwt'];
-    });
+    const response = await this.http.get(`${this.serverString}/login`, { headers: headers }).toPromise();
+    this.jwt = response['jwt'];
     this.isLoggedIn = true;
+    this.router.navigate(['/home']);
   }
 
   uploadFile(uploadData) {
