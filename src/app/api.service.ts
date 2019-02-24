@@ -13,6 +13,9 @@ export class ApiService {
     this.serverString = "http://localhost:9090";
   }
 
+  /**
+   * This function performs an login and sets isLoggedIn to true if successful.
+   */
   async login(username, password) {
     const headers = new HttpHeaders({ 'username': username, 'password': password });
     const response = await this.http.get(`${this.serverString}/login`, { headers: headers });
