@@ -14,7 +14,6 @@ export class ApiService {
   }
 
   async login(username, password) {
-    console.log("In api")
     const headers = new HttpHeaders({ 'username': username, 'password': password });
     const response = await this.http.get(`${this.serverString}/login`, { headers: headers });
     response.subscribe((obj) => {
@@ -24,9 +23,6 @@ export class ApiService {
   }
 
   uploadFile(uploadData) {
-    //let headers = new Headers();
-    //headers.append('token', key);
-    console.log("uploadFile was called on api-service");
     this.http.post(`${this.serverString}/uploadSingleDocument`, uploadData, {
       reportProgress: true,
       observe: 'events',
