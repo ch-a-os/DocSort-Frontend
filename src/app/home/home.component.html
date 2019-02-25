@@ -5,7 +5,14 @@
 
     <p>Title: </p><input id="title" type="text" [(ngModel)]="uploadTitle">
     <p>Note: </p><input id="note" type="text" [(ngModel)]="note">
-    <p>Tags: (seperated with commas): </p><input id="tags" type="text" [(ngModel)]="tags">
 
+    <br>
+    
+    <p>Tags: </p>
+    <div *ngFor="let tag of tagsAvailable" id="tags">
+        <p [ngStyle]="{'background-color': '' + tag.colorBackground + ''}"
+        (click)="addTag($event)">{{tag.name}}</p>
+    </div>
+    <br>
     <button (click)="onUpload()">Upload!</button>
 </div>

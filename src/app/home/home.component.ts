@@ -11,11 +11,14 @@ export class HomeComponent implements OnInit {
   selectedFile: File;
   uploadTitle: string = "";
   note: string = "";
-  tags: string = "";
+  tagsAvailable = [];
+  selectedTags: Array<any> = [];
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService) {
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.tagsAvailable = await this.api.getTags();
   }
 
   onFileChanged(files: FileList) {
@@ -28,8 +31,19 @@ export class HomeComponent implements OnInit {
       singleDocument: this.selectedFile,
       title: this.uploadTitle,
       note: this.note,
-      tags: this.tags
+      tags: this.selectedTags
     });
+  }
+
+  addTag(tag) {
+    const tagName = tag.explicitOriginalTarget.textContent;
+    const tagID = this.tagsAvailable.filter((val) => {
+      if(val.name == tagName) return val;
+    })[0].id;
+    if(this.selectedTags.indexOf(tagID) == -1) this.selectedTags.push(tagID);
+    else this.selectedTags.splice(this.selectedTags.indexOf(tagID, 1));
+    console.log("Add", tagID)
+    console.log(this.selectedTags);
   }
 
 }

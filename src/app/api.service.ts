@@ -32,16 +32,31 @@ export class ApiService {
   }
 
   async uploadFile(uploadData: IUploadFile) {
+    // Create JSON object for the tags
+    const tags: Array<any> = [];
+
     let formData: FormData = new FormData();  
     formData.append('singleDocument',uploadData.singleDocument); 
     formData.append('note',uploadData.note);
-    formData.append('tags',uploadData.tags);
+    formData.append('tags', "[" + uploadData.tags.toString() + "]");
     formData.append('title',uploadData.title);
     const response = await this.http.post(`${this.serverString}/uploadSingleDocument`, formData, {
       reportProgress: true,
       observe: 'events',
       headers: new HttpHeaders().set('token', this.jwt)
     }).toPromise();
+  }
+
+  async getTags(): Promise<Array<any>> {
+    return new Promise<Array<any>>(async (resolve, reject) => {
+      await this.http.get(`${this.serverString}/getAllTags`, {
+        reportProgress: true,
+        observe: 'events',
+        headers: new HttpHeaders().set('token', this.jwt)
+      }).toPromise().then((response: any) => {
+        resolve(response.body);
+      })
+    })
   }
 
   getToken() {
@@ -61,5 +76,5 @@ interface IUploadFile {
   singleDocument: File;
   title: string;
   note: string;
-  tags: string;
+  tags: Array<any>;
 }
