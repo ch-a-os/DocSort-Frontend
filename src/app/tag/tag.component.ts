@@ -8,7 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class TagComponent implements OnInit {
 
   @Input() tagData: ITagData;
-  @Output() toggleSelect = new EventEmitter<TagComponent>();
+  @Output() toggleSelect = new EventEmitter<ITagData>();
 
   constructor() { }
 
@@ -17,7 +17,7 @@ export class TagComponent implements OnInit {
 
   toggleSelected() {
     console.log("child: toggle was called: " + this.tagData.name);
-    this.toggleSelect.emit(this);
+    this.toggleSelect.emit(this.tagData);
   }
 
 }

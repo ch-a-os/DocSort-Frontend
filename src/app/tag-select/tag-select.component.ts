@@ -8,34 +8,36 @@ import { TagComponent } from '../tag/tag.component';
   styleUrls: ['./tag-select.component.css']
 })
 export class TagSelectComponent implements OnInit {
-  tagsAvailableRaw;
-  //tagsSelectedRaw;
-  tagsAvailable: Array<TagComponent>;
-  tagsSelected: Array<TagComponent>;
+  tagsAvailable: Array<Tag>;
+  tagsSelected: Array<Tag>;
 
   constructor(private api: ApiService, private cdr: ChangeDetectorRef) {
-    this.tagsAvailableRaw = new Array<any>();
-    this.tagsAvailable = new Array<TagComponent>();
-    this.tagsSelected = new Array<TagComponent>();
+    this.tagsAvailable = new Array<Tag>();
+    this.tagsSelected = new Array<Tag>();
   }
 
   async ngOnInit() {
-    this.tagsAvailableRaw = await this.api.getTags();
+    let temp = await this.api.getTags();
+    for(let entry of temp) {
+      this.tagsAvailable.push(entry);
+    }
     //this.tagsSelected = await this.api.getTags();
-    console.log("loaded " + this.tagsAvailableRaw.length + " tags");
+    console.log("loaded " + this.tagsAvailable.length + " tags");
   }
 
-  toggleSelect(tag: TagComponent) {
-    console.log("parent called: " + tag.tagData.name);
+  toggleSelect(tag: Tag) {
+    console.log("parent called: " + tag.name);
     let foundEntryIndex = this.tagsSelected.indexOf(tag);
     if(foundEntryIndex == -1) {
-      console.log("tag " + tag.tagData.name + " not found, pushing");
+      console.log("tag " + tag.name + " not found, pushing");
       this.tagsSelected.push(tag);
+      let found = this.tagsAvailable.indexOf(tag);
+      this.tagsAvailable.splice(found, 1);
     } else {
-      console.log("tag " + tag.tagData.name + " found, removing");
-      //this.tagsSelected.splice(foundEntryIndex, 1);
-      this.tagsSelected.pop();
-      this.tagsSelected.pop();
+      console.log("tag " + tag.name + " found, removing");
+      this.tagsAvailable.push(tag);
+      this.tagsSelected.splice(foundEntryIndex, 1);
+
     }
     //this.tagsSelected = [].concat(this.tagsSelected);
     
@@ -59,4 +61,12 @@ export class TagSelectComponent implements OnInit {
     }
   }*/
 
+}
+
+class Tag {
+  id?: number;
+  name: string;
+  logo: string;
+  colorBackground: string;
+  colorForeground: string;
 }
