@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ApiService } from '../api.service';
+import { TagSelectComponent } from '../tag-select/tag-select.component';
 
 @Component({
   selector: 'app-home',
@@ -11,15 +12,11 @@ export class HomeComponent implements OnInit {
   selectedFile: File;
   uploadTitle: string = "";
   note: string = "";
-  tagsAvailable = [];
-  selectedTags: Array<any> = [];
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private viewRef: ViewContainerRef) {
   }
 
-  async ngOnInit() {
-    this.tagsAvailable = await this.api.getTags();
-  }
+  async ngOnInit() {}
 
   onFileChanged(files: FileList) {
     console.log("onFileChanged was called");
@@ -31,19 +28,8 @@ export class HomeComponent implements OnInit {
       singleDocument: this.selectedFile,
       title: this.uploadTitle,
       note: this.note,
-      tags: this.selectedTags
+      tags: [2]
     });
-  }
-
-  addTag(tag) {
-    const tagName = tag.explicitOriginalTarget.textContent;
-    const tagID = this.tagsAvailable.filter((val) => {
-      if(val.name == tagName) return val;
-    })[0].id;
-    if(this.selectedTags.indexOf(tagID) == -1) this.selectedTags.push(tagID);
-    else this.selectedTags.splice(this.selectedTags.indexOf(tagID, 1));
-    console.log("Add", tagID)
-    console.log(this.selectedTags);
   }
 
 }

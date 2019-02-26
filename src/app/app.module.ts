@@ -10,12 +10,16 @@ import { HomeComponent } from './home/home.component';
 import { GuardService } from './guard.service';
 import { RouterModule } from '@angular/router';
 import { routes } from './routes';
+import { TagSelectComponent } from './tag-select/tag-select.component';
+import { TagComponent } from './tag/tag.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    TagSelectComponent,
+    TagComponent
   ],
   imports: [
     BrowserModule,

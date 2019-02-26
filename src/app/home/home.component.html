@@ -1,5 +1,4 @@
 <div id="home">
-    {{uploadTitle}}
     <input type="file" id="singleDocument" class="fileUpload" (change)="onFileChanged($event.target.files)">
     <br><br>
 
@@ -9,10 +8,7 @@
     <br>
     
     <p>Tags: </p>
-    <div *ngFor="let tag of tagsAvailable" id="tags">
-        <p [ngStyle]="{'background-color': '' + tag.colorBackground + ''}"
-        (click)="addTag($event)">{{tag.name}}</p>
-    </div>
+    <app-tag-select></app-tag-select>
     <br>
     <button (click)="onUpload()">Upload!</button>
 </div>

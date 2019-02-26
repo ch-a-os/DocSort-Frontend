@@ -1,0 +1,9 @@
+<h3>Tags available:</h3>
+<div *ngFor="let tag of tagsAvailableRaw" id="tagsAvailable">
+  <app-tag [tagData]="tag" (toggleSelect)="toggleSelect($event)"></app-tag>
+</div>
+
+<h3>Tags selected:</h3>
+<div *ngFor="let tag2 of tagsSelected" id="tagsSelected">
+    <app-tag [tagData]="tag2" (toggleSelect)="toggleSelect($event)"></app-tag>
+</div>
