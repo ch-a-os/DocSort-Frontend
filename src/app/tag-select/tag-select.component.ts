@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../api.service';
 import { TagComponent } from '../tag/tag.component';
 
@@ -8,6 +8,8 @@ import { TagComponent } from '../tag/tag.component';
   styleUrls: ['./tag-select.component.css']
 })
 export class TagSelectComponent implements OnInit {
+  @Output() tagsToSend = new EventEmitter<Array<Tag|number>>();
+
   tagsAvailable: Array<Tag>;
   tagsSelected: Array<Tag>;
 
@@ -39,6 +41,7 @@ export class TagSelectComponent implements OnInit {
       this.tagsSelected.splice(foundEntryIndex, 1);
 
     }
+    this.tagsToSend.emit(this.tagsSelected);
     //this.tagsSelected = [].concat(this.tagsSelected);
     
     //let temp = Object.assign([],this.selectedTags);

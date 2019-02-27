@@ -12,6 +12,7 @@ export class HomeComponent implements OnInit {
   selectedFile: File;
   uploadTitle: string = "";
   note: string = "";
+  tags: Array<ITag|number>;
 
   constructor(private api: ApiService, private viewRef: ViewContainerRef) {
   }
@@ -28,9 +29,32 @@ export class HomeComponent implements OnInit {
       singleDocument: this.selectedFile,
       title: this.uploadTitle,
       note: this.note,
-      tags: [2]
+      tags: this.tags
     });
   }
 
+  tagsToSendList(tagList: Array<ITag>) {
+    console.log("tagsToSendList event fired. length=" + tagList.length);
+    console.log(JSON.stringify(tagList));
+    this.tags = new Array();
+    for (const entry of tagList) {
+      if(entry.id != null) {
+        this.tags.push(entry.id);
+      } else {
+        this.tags.push(entry);
+      }
+    }
+    console.log(JSON.stringify(this.tags));
+
+  }
+
+}
+
+interface ITag {
+  id?: number;
+  name: string;
+  logo: string;
+  colorBackground: string;
+  colorForeground: string;
 }
 

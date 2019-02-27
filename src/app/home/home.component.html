@@ -8,7 +8,7 @@
     <br>
     
     <p>Tags: </p>
-    <app-tag-select></app-tag-select>
+    <app-tag-select (tagsToSend)="tagsToSendList($event)"></app-tag-select>
     <br>
     <button (click)="onUpload()">Upload!</button>
 </div>
