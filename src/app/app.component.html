@@ -3,6 +3,7 @@
     <app-login></app-login>
 </div>
 <div *ngIf="this.api.isLoggedIn == true">
+    <app-menu></app-menu>
     <h1>logged in: {{api.decodedJwt.username}}</h1>
     <router-outlet></router-outlet>
 </div>
