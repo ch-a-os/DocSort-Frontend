@@ -1,15 +1,15 @@
 <div id="tagsSelector">
-  <div class="tagsAvailable">
-    <div *ngFor="let tag of tagsAvailable">
+
+  <div class="tagList" id="tagsAvailable">
+    <ng-container *ngFor="let tag of tagsAvailable">
       <app-tag [tagData]="tag" (toggleSelect)="toggleSelect($event)"></app-tag>
-      <br>
-    </div>
+    </ng-container>
   </div>
 
-  <div class="tagsSelected">
-    <div *ngFor="let tag of tagsSelected" >
+  <div class="tagList" id="tagsSelected">
+    <ng-container *ngFor="let tag of tagsSelected" >
         <app-tag [tagData]="tag" (toggleSelect)="toggleSelect($event)"></app-tag>
-        <br>
-    </div>
+    </ng-container>
   </div>
+
 </div>
