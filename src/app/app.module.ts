@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 import { routes } from './routes';
 import { TagSelectComponent } from './tag-select/tag-select.component';
 import { TagComponent } from './tag/tag.component';
+import { UploadSingleFileComponent } from './upload-single-file/upload-single-file.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { TagComponent } from './tag/tag.component';
     LoginComponent,
     HomeComponent,
     TagSelectComponent,
-    TagComponent
+    TagComponent,
+    UploadSingleFileComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

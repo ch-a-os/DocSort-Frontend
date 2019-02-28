@@ -1,8 +1,5 @@
-<div [style.background-color]="tagData.colorBackground"
+<span class="tag" [style.background-color]="tagData.colorBackground"
   [style.color]="tagData.colorForeground"
   (click)="toggleSelected()">
-  id: {{tagData.id}}<br>
-  name: {{tagData.name}}<br>
-  logo: {{tagData.logo}}
-
-</div>
+  {{tagData.name}}
+</span>

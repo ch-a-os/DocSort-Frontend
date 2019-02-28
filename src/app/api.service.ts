@@ -16,6 +16,7 @@ export class ApiService {
     this.serverString = "http://localhost:9090";
     this.isLoggedIn = false;
     this.decodedJwt = null;
+    this.login("spYro", "PASS");
   }
 
   /**
