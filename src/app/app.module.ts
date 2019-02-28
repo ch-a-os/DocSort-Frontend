@@ -14,6 +14,7 @@ import { TagSelectComponent } from './tag-select/tag-select.component';
 import { TagComponent } from './tag/tag.component';
 import { UploadSingleFileComponent } from './upload-single-file/upload-single-file.component';
 import { MenuComponent } from './menu/menu.component';
+import { SnotifyModule, ToastDefaults, SnotifyService } from 'ng-snotify';
 
 @NgModule({
   declarations: [
@@ -30,10 +31,13 @@ import { MenuComponent } from './menu/menu.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    SnotifyModule
   ],
   providers: [
-    GuardService
+    GuardService,
+    { provide: 'SnotifyToastConfig', useValue: ToastDefaults},
+    SnotifyService
   ],
   bootstrap: [AppComponent]
 })
