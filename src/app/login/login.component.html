@@ -6,4 +6,5 @@
   <input placeholder="Password" [(ngModel)]="password"><br>
   
   <button (click)="login()">Login</button>
+  <p *ngIf="loginFailed" id="failed">Your username or password is wrong! Error code {{ this.failReason[0] }} {{ this.failReason[1] }}</p>
 </div>
