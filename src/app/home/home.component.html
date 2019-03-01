@@ -1,3 +1,12 @@
 <div id="pageHome">
-    <h1>home page</h1>
+    <h1>Welcome back, user!</h1>
+    <p>All of your documents:</p>
+    <div *ngFor="let doc of allDocuments">
+        <ul>
+            <li *ngIf="doc.mimeType == 'image/png'"><img src="assets/filetype_png.svg"></li>
+            <li *ngIf="doc.mimeType == 'application/pdf'"><img src="assets/filetype_pdf.svg"></li>
+            <li><h4>{{doc.title}}</h4></li>
+            <li>{{doc.note}}</li>
+        </ul>
+    </div>
 </div>

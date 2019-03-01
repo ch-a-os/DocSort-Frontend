@@ -25,19 +25,20 @@ export class ApiService {
   async login(username, password): Promise<Array<string>> {
     return new Promise<Array<string>>(async (resolve, reject) => {
       const headers = new HttpHeaders({ 'username': username, 'password': password });
-      this.http.get(`${this.serverString}/login`, { headers: headers, observe: 'response' }).toPromise().then((response) => {
+      try {
+        const response = await this.http.get(`${this.serverString}/login`, { headers: headers, observe: 'response' }).toPromise();
         this.jwt = response.body['jwt'];
         this.isLoggedIn = true;
         const helper = new JwtHelperService();
         this.decodedJwt = helper.decodeToken(this.jwt);
         this.router.navigate(['/home']);
         resolve(["200", "OK"]);
-      }).catch((err) => {
+      } catch(err){
         console.log("Err=", err)
         if(err.status != 200) {
           resolve([err.status.toString(), err.statusText]);
         }
-      });
+      }
     })
   }
 
@@ -66,6 +67,21 @@ export class ApiService {
       }).toPromise().then((response: any) => {
         resolve(response.body);
       })
+    })
+  }
+
+  async getAllDocumentsMeta(): Promise<Object> {
+    return new Promise<Object>(async (resolve, reject) => {
+      try {
+        const response = await this.http.get(`${this.serverString}/getAllDocuments`, {
+          reportProgress: true,
+          observe: 'response',
+          headers: new HttpHeaders().set('token', this.jwt)
+        }).toPromise();
+        resolve(response.body);
+      } catch(err) {
+        reject(err);
+      }      
     })
   }
 

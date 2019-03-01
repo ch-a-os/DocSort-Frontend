@@ -1,0 +1,10 @@
+ul {
+    list-style: none;
+}
+ul li h4 {
+    margin-bottom: 5px;
+}
+ul li img {
+    width: 64px;
+    height: 64px;
+}
