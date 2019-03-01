@@ -20,11 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   async login(username, password) {
-    const isFailed = await this.api.login(this.username, this.password);
-    if(isFailed != ["200", "OK"]) {
-      this.loginFailed = true;
-      this.failReason = isFailed;
-    }
+    await this.api.login(this.username, this.password);
   }
 
 }

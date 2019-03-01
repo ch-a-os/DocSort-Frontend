@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { SnotifyService, SnotifyPosition, SnotifyToastConfig } from 'ng-snotify';
+import { SnotifyService, SnotifyPosition, SnotifyToastConfig, SnotifyToast } from 'ng-snotify';
+import { IDocument, IDecodedJwt, IUploadFile, ITag } from './interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class ApiService {
   /**
    * This function performs a login and sets isLoggedIn to true if successful.
    */
-  async login(username, password) {
+  async login(username, password): Promise<boolean> {
     const headers = new HttpHeaders({ 'username': username, 'password': password });
     let response = null;
     try {
@@ -31,17 +32,17 @@ export class ApiService {
     } catch (error) {
       console.log("error on login");
       this.toastLoginError();
-      return;
+      return false;
     }
     if(response == null) {
       console.log("error on login");
       this.toastLoginError();
-      return;
+      return false;
     }
     if(response['jwt'] == null) {
       console.log("error on login");
       this.toastLoginError();
-      return;
+      return false;
     }
     this.jwt = response['jwt'];
     this.isLoggedIn = true;
@@ -49,6 +50,7 @@ export class ApiService {
     this.decodedJwt = helper.decodeToken(this.jwt);
     this.router.navigate(['/home']);
     this.toastLoginSuccessfull();
+    return true;
   }
 
   toastLoginError() {
@@ -79,38 +81,71 @@ export class ApiService {
     formData.append('note',uploadData.note);
     formData.append('tags', "[" + uploadData.tags.toString() + "]");
     formData.append('title',uploadData.title);
-    const response = await this.http.post(`${this.serverString}/uploadSingleDocument`, formData, {
-      reportProgress: true,
-      observe: 'events',
-      headers: new HttpHeaders().set('token', this.jwt)
-    }).toPromise();
-  }
-
-  async getTags(): Promise<Array<any>> {
-    return new Promise<Array<any>>(async (resolve, reject) => {
-      await this.http.get(`${this.serverString}/getAllTags`, {
+    let response = null;
+    let toast: SnotifyToast = null;
+    try {
+      response = this.http.post(`${this.serverString}/uploadSingleDocument`, formData, {
         reportProgress: true,
         observe: 'events',
         headers: new HttpHeaders().set('token', this.jwt)
-      }).toPromise().then((response: any) => {
-        resolve(response.body);
-      })
-    })
+      }).toPromise();
+      toast = this.snotifyService.async("Dokumenten-upload", response, {
+        showProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        position: SnotifyPosition.rightBottom
+      });
+      
+      await response;
+      this.snotifyService.remove(toast.id, true);
+      this.snotifyService.success("Document uploaded", "SUCCESS", {
+        timeout: 4000,
+        showProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        position: SnotifyPosition.rightBottom
+      });
+      
+
+    } catch (error) {
+      this.snotifyService.remove(toast.id, true);
+      this.snotifyService.error("Document NOT uploaded", "ERROR", {
+        timeout: 4000,
+        showProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        position: SnotifyPosition.rightBottom
+      });
+    }
+
   }
 
-  async getAllDocumentsMeta(): Promise<Object> {
-    return new Promise<Object>(async (resolve, reject) => {
-      try {
-        const response = await this.http.get(`${this.serverString}/getAllDocuments`, {
-          reportProgress: true,
-          observe: 'response',
-          headers: new HttpHeaders().set('token', this.jwt)
-        }).toPromise();
-        resolve(response.body);
-      } catch(err) {
-        reject(err);
-      }      
-    })
+  async getTags(): Promise<Array<ITag>> {
+    let response = null;
+    try {
+      response = await this.http.get(`${this.serverString}/getAllTags`, {
+        reportProgress: true,
+        observe: 'events',
+        headers: new HttpHeaders().set('token', this.jwt)
+      }).toPromise()
+    } catch (error) {
+      console.log("error in getTags: " + error);
+    }
+    return response.body;
+  }
+
+  async getAllDocumentsMeta(): Promise<Array<IDocument>> {
+    let response = null;
+    try {
+      response = await this.http.get(`${this.serverString}/getAllDocuments`, {
+        reportProgress: true,
+        observe: 'response',
+        headers: new HttpHeaders().set('token', this.jwt)
+      }).toPromise();
+    } catch (error) {
+      console.log("error in getAllDocumentsMeta: " + error);
+    }
+    return response.body;
   }
 
   getToken() {
@@ -119,16 +154,8 @@ export class ApiService {
   
 }
 
-interface IDecodedJwt {
-  id: number;
-  username: string;
-  iat: number;
-  exp: number;
-}
-
-interface IUploadFile {
-  singleDocument: File;
-  title: string;
-  note: string;
-  tags: Array<any>;
+async function wait(ms) {
+  return new Promise(resolve => {
+      setTimeout(resolve, ms);
+  });
 }

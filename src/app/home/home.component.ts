@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { ApiService } from '../api.service';
+import { IDocument } from '../interfaces';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +9,12 @@ import { ApiService } from '../api.service';
 })
 export class HomeComponent implements OnInit {
   title = 'docSort';
-  allDocuments: Array<any> = [];
+  allDocuments: Array<IDocument> = [];
 
   constructor(private api: ApiService) {
   }
 
   async ngOnInit() {
-    // @ts-ignore: It's not an object, it's an Array.
     this.allDocuments = await this.api.getAllDocumentsMeta();
     console.log(this.allDocuments);
   }
