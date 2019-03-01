@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
+import { SnotifyService } from 'ng-snotify';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginFailed = false;
   failReason: Array<string> = [];
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private snotifyService: SnotifyService) { }
 
   ngOnInit() {
   }
