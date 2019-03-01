@@ -23,26 +23,6 @@ export class ApiService {
   /**
    * This function performs a login and sets isLoggedIn to true if successful.
    */
-<<<<<<< HEAD
-  async login(username, password): Promise<Array<string>> {
-    return new Promise<Array<string>>(async (resolve, reject) => {
-      const headers = new HttpHeaders({ 'username': username, 'password': password });
-      try {
-        const response = await this.http.get(`${this.serverString}/login`, { headers: headers, observe: 'response' }).toPromise();
-        this.jwt = response.body['jwt'];
-        this.isLoggedIn = true;
-        const helper = new JwtHelperService();
-        this.decodedJwt = helper.decodeToken(this.jwt);
-        this.router.navigate(['/home']);
-        resolve(["200", "OK"]);
-      } catch(err){
-        console.log("Err=", err)
-        if(err.status != 200) {
-          resolve([err.status.toString(), err.statusText]);
-        }
-      }
-    })
-=======
   async login(username, password) {
     const headers = new HttpHeaders({ 'username': username, 'password': password });
     let response = null;
@@ -88,7 +68,6 @@ export class ApiService {
       closeOnClick: false,
       pauseOnHover: true
     });
->>>>>>> snotifyImplementation
   }
 
   async uploadFile(uploadData: IUploadFile) {
