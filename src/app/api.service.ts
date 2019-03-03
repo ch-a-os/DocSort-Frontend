@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Router } from "@angular/router";
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { SnotifyService, SnotifyPosition, SnotifyToastConfig, SnotifyToast } from 'ng-snotify';
@@ -89,7 +89,7 @@ export class ApiService {
         observe: 'events',
         headers: new HttpHeaders().set('token', this.jwt)
       }).toPromise();
-      toast = this.snotifyService.async("Dokumenten-upload", response, {
+      toast = this.snotifyService.async("Document is uploading ...", response, {
         showProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -98,7 +98,7 @@ export class ApiService {
       
       await response;
       this.snotifyService.remove(toast.id, true);
-      this.snotifyService.success("Document uploaded", "SUCCESS", {
+      this.snotifyService.success("Document uploaded", "Complete", {
         timeout: 4000,
         showProgressBar: true,
         closeOnClick: true,
@@ -109,7 +109,7 @@ export class ApiService {
 
     } catch (error) {
       this.snotifyService.remove(toast.id, true);
-      this.snotifyService.error("Document NOT uploaded", "ERROR", {
+      this.snotifyService.error("An error occurred while uploading", "Oh no...", {
         timeout: 4000,
         showProgressBar: true,
         closeOnClick: true,
@@ -146,6 +146,26 @@ export class ApiService {
       console.log("error in getAllDocumentsMeta: " + error);
     }
     return response.body;
+  }
+
+  async downloadDocument(docID): Promise<HttpResponse<Object>> {
+    let response = null;
+    try {
+      response = await this.http.get(`${this.serverString}/getDocumentFile/${docID}`, {
+        reportProgress: true,
+        observe: 'body',
+        headers: new HttpHeaders().set('token', this.jwt),
+        responseType: "blob"
+      }).toPromise();
+    } catch(error) {
+      console.error("error in downloadDocument:", error);
+    }
+    return response;
+  }
+
+  prompDownloadDocument(docID): void {
+    window.open(`${this.serverString}/getDocumentFile/${docID}?token=${this.jwt}`, "Download document")
+    return;
   }
 
   getToken() {

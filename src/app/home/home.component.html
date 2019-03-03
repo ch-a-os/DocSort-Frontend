@@ -1,12 +1,17 @@
 <div id="pageHome">
     <h1>Welcome back, user!</h1>
-    <p>All of your documents:</p>
-    <div *ngFor="let doc of allDocuments">
-        <ul>
-            <li *ngIf="doc.mimeType == 'image/png'"><img src="assets/filetype_png.svg"></li>
-            <li *ngIf="doc.mimeType == 'application/pdf'"><img src="assets/filetype_pdf.svg"></li>
-            <li><h4>{{doc.title}}</h4></li>
-            <li>{{doc.note}}</li>
-        </ul>
+        <div id="recentDocuments">
+        <p>Your recent uploaded documents</p>
+        <div *ngFor="let doc of allDocuments" id="document">
+            <h4>{{doc.title}}</h4>
+            <p>{{doc.note}}</p>
+            <div id="properties">
+                <img *ngIf="doc.mimeType == 'image/png'" src="assets/filetype_png.svg">
+                <img *ngIf="doc.mimeType == 'application/pdf'" src="assets/filetype_pdf.svg">
+                <img src="assets/ocr_enabled.svg" title="OCR enabled on this document">
+            </div>
+            <br>
+            <button (click)="download(doc)">Download</button>
+        </div>
     </div>
 </div>

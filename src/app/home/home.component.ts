@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ApiService } from '../api.service';
 import { IDocument } from '../interfaces';
+import { timeout } from 'q';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +18,10 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.allDocuments = await this.api.getAllDocumentsMeta();
     console.log(this.allDocuments);
+  }
+
+  async download(doc) {
+    this.api.prompDownloadDocument(doc.uid);
   }
 
 }

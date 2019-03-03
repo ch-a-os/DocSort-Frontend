@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(private api: ApiService, private snotifyService: SnotifyService) { }
 
   ngOnInit() {
+    this.api.login("Mondei1", "pass");
   }
 
   async login(username, password) {
