@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import { PageShowTagsComponent } from './page-show-tags.component';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('PageShowTagsComponent', () => {
+  let component: PageShowTagsComponent;
+  let fixture: ComponentFixture<PageShowTagsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      declarations: [ PageShowTagsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(PageShowTagsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

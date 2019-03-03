@@ -1,14 +1,13 @@
 import { Component, OnInit} from '@angular/core';
 import { ApiService } from '../api.service';
 import { IDocument } from '../interfaces';
-import { timeout } from 'q';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-page-home',
+  templateUrl: './page-home.component.html',
+  styleUrls: ['./page-home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class PageHomeComponent implements OnInit {
   title = 'docSort';
   allDocuments: Array<IDocument> = [];
 

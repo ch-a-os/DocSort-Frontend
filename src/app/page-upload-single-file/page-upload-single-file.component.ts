@@ -3,11 +3,11 @@ import { ITag } from '../interfaces';
 import { ApiService } from '../api.service';
 
 @Component({
-  selector: 'app-upload-single-file',
-  templateUrl: './upload-single-file.component.html',
-  styleUrls: ['./upload-single-file.component.css']
+  selector: 'app-page-upload-single-file',
+  templateUrl: './page-upload-single-file.component.html',
+  styleUrls: ['./page-upload-single-file.component.css']
 })
-export class UploadSingleFileComponent implements OnInit {
+export class PageUploadSingleFileComponent implements OnInit {
   selectedFile: File;
   uploadTitle: string;
   note: string;

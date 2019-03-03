@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UploadSingleFileComponent } from './upload-single-file.component';
+import { PageUploadSingleFileComponent } from './page-upload-single-file.component';
 
 describe('UploadSingleFileComponent', () => {
-  let component: UploadSingleFileComponent;
-  let fixture: ComponentFixture<UploadSingleFileComponent>;
+  let component: PageUploadSingleFileComponent;
+  let fixture: ComponentFixture<PageUploadSingleFileComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UploadSingleFileComponent ]
+      declarations: [ PageUploadSingleFileComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UploadSingleFileComponent);
+    fixture = TestBed.createComponent(PageUploadSingleFileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

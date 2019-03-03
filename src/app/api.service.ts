@@ -171,6 +171,22 @@ export class ApiService {
   getToken() {
     return this.jwt;
   }
+
+  async getAllTags() {
+    let response = null;
+    try {
+      response = await this.http.get(`${this.serverString}/getAllTags`, {
+        reportProgress: true,
+        observe: 'response',
+        headers: new HttpHeaders().set('token', this.jwt)
+      }).toPromise();
+      console.log(`getAllTags responsed with ${response.body.length} entries`);
+      return response.body;
+    } catch (error) {
+      console.log(`error in getAllTags: ${error}`);
+      return new Array();
+    }
+  }
   
 }
 
